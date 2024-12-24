@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const userService = require('../services/userService');
 
 router.get('/', async (req, res) => {
     try {
-        const users = await User.findAll();
+        const users = await userService.getAllUsers();
         res.json(users);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -13,8 +13,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { name } = req.body;
-        const user = await User.create({ name });
+        const user = await userService.createUser(req.body);
         res.status(201).json(user);
     } catch (err) {
         res.status(500).json({ error: err.message });
