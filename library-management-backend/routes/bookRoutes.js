@@ -5,18 +5,18 @@ const bookService = require('../services/bookService');
 router.get('/', async (req, res) => {
     try {
         const books = await bookService.getAllBooks();
-        res.json(books);
+        res.status(200).json(books);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-router.post('/', async (req, res) => {
+router.get('/:bookId', async (req, res) => {
     try {
-        const book = await bookService.createBook(req.body);
-        res.status(201).json(book);
+        const book = await bookService.getBookWithScore(req.params.bookId);
+        res.status(200).json(book);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(404).json({ error: err.message });
     }
 });
 

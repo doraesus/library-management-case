@@ -6,13 +6,9 @@ const Book = sequelize.define('Book', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    author: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    year: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+    isBorrowed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     },
     averageScore: {
         type: DataTypes.FLOAT,

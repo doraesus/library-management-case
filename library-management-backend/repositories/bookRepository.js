@@ -1,11 +1,37 @@
 const Book = require('../models/Book');
 
-async function findAll() {
-    return await Book.findAll();
-}
+const bookRepository = {
 
-async function create(data) {
-    return await Book.create(data);
-}
+    async findAllBooks() {
+        return await Book.findAll({
+            attributes: ['id', 'name'],
+            order: [['name', 'ASC']],
+        });
+    },
 
-module.exports = { findAll, create };
+    async findById(bookId) {
+        return await Book.findByPk(bookId);
+    },
+
+    async updateBorrowedStatus(bookId, isBorrowed) {
+        const book = await Book.findByPk(bookId);
+        if (!book) {
+            throw new Error(`Book with ID ${bookId} not found`);
+        }
+        book.isBorrowed = isBorrowed;
+        await book.save();
+        return book;
+    },
+
+    async updateAverageScore(bookId, averageScore) {
+        const book = await Book.findByPk(bookId);
+        if (!book) {
+            throw new Error(`Book with ID ${bookId} not found`);
+        }
+        book.averageScore = averageScore;
+        await book.save();
+        return book;
+    },
+};
+
+module.exports = bookRepository;

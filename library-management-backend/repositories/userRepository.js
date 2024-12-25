@@ -1,11 +1,31 @@
 const User = require('../models/User');
 
-async function findAll() {
-    return await User.findAll();
-}
+const userRepository = {
 
-async function create(data) {
-    return await User.create(data);
-}
+    async findAllUsers() {
+        return await User.findAll({
+            attributes: ['id', 'name'],
+            order: [['name', 'ASC']],
+        });
+    },
 
-module.exports = { findAll, create };
+    async findUserById(userId) {
+        return await User.findByPk(userId);
+    },
+
+    async update(userId, updateFields) {
+        return await User.update(updateFields, { where: { id: userId } });
+    },
+
+    async incrementUserScore(userId, incrementBy) {
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error(`User with ID ${userId} not found`);
+        }
+        user.score += incrementBy;
+        await user.save();
+        return user;
+    },
+};
+
+module.exports = userRepository;
