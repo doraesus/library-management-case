@@ -100,7 +100,7 @@ const UserDetails: React.FC = () => {
             {user.books!.past.length > 0 ? (
               <ul style={{ paddingLeft: '20px' }}>
                 {user.books!.past.map((book, index) => (
-                  <li key={index} style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>
+                  <li key={index} style={{ fontFamily: "Arial", fontSize: '1rem', marginBottom: '0.5rem' }}>
                     {book.name} - <strong>Score:</strong> {book.userScore}
                   </li>
                 ))}

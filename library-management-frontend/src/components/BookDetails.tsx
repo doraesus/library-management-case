@@ -58,6 +58,7 @@ const BookDetails: React.FC = () => {
         <Typography variant="subtitle1" sx={{ color: 'gray', marginTop: 1 }}>
           Book Details
         </Typography>
+        <Typography variant="subtitle2">Score: {book.score}</Typography>
       </Paper>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -76,6 +77,7 @@ const BookDetails: React.FC = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled={availableUsers.length === 0}
                   onClick={() => setBorrowModalVisible(true)}
                   sx={{ marginLeft: 2 }}
                 >
@@ -88,7 +90,7 @@ const BookDetails: React.FC = () => {
       </Box>
 
       <BorrowBookModal
-        open={borrowModalVisible}
+        open={availableUsers.length > 0 && borrowModalVisible}
         onClose={() => setBorrowModalVisible(false)}
         onBorrow={handleBorrowBook}
         availableUsers={availableUsers}

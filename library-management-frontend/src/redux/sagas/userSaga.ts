@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import {
   fetchUsersRequest,
   fetchUsersSuccess,
@@ -19,12 +20,16 @@ import {
 import api from '../../services/api';
 import { fetchBookDetailsRequest } from '../actions/bookActions';
 
-function* fetchUsers(action: ReturnType<typeof fetchUsersSuccess>): Generator<any, void, any> {
+function* fetchUsers(): Generator<any, void, any> {
   try {
     const response = yield call(api.get, '/users');
     yield put(fetchUsersSuccess(response.data));
   } catch (error: any) {
     yield put(fetchUsersFailure(error.message));
+    toast.error(`Error: Users cannot be fetched.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
   }
 }
 
@@ -34,15 +39,23 @@ function* fetchUserDetails(action: ReturnType<typeof fetchUserDetailsRequest>): 
       yield put(fetchUserDetailsSuccess(response.data));
     } catch (error: any) {
       yield put(fetchUserDetailsFailure(error.message));
+      toast.error(`Error: User details cannot be fetched.`, {
+        position: 'top-right',
+        autoClose: 5000,
+      }); 
     }
 }
 
-function* fetchEligibleUsers(action: ReturnType<typeof fetchEligibleUsersSuccess>): Generator<any, void, any> {
+function* fetchEligibleUsers(): Generator<any, void, any> {
   try {
     const response = yield call(api.get, '/users/eligible-borrowers');
     yield put(fetchEligibleUsersSuccess(response.data));
   } catch (error: any) {
     yield put(fetchEligibleUsersFailure(error.message));
+    toast.error(`Error: Eligible users cannot be fetched.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
   }
 }
 
@@ -51,9 +64,17 @@ function* borrowBook(action: ReturnType<typeof borrowBookRequest>) {
     const { userId, bookId } = action.payload;
     yield call(api.post, `/users/${userId}/borrow/${bookId}`);
     yield put(borrowBookSuccess());
+    toast.success(`Success: Book is borrowed.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
     yield put(fetchBookDetailsRequest(bookId));
   } catch (error: any) {
     yield put(borrowBookFailure(error.message));
+    toast.error(`Error: Book cannot be borrowed.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
   }
 }
 
@@ -63,9 +84,17 @@ function* returnBook(action: ReturnType<typeof returnBookRequest>) {
     const { userId, bookId, score } = action.payload;
     yield call(api.post, `/users/${userId}/return/${bookId}`, { score });
     yield put(returnBookSuccess());
+    toast.success(`Success: Book is returned.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
     yield put(fetchUserDetailsRequest(userId));
   } catch (error: any) {
     yield put(returnBookFailure(error.message));
+    toast.error(`Error: Book cannot be returned.`, {
+      position: 'top-right',
+      autoClose: 5000,
+    }); 
   }
 }
 
