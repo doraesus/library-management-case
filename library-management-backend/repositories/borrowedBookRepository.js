@@ -1,5 +1,6 @@
 const BorrowedBook = require('../models/BorrowedBook');
 const Book = require('../models/Book');
+const User = require('../models/User');
 const { Op } = require('sequelize');
 
 const borrowedBookRepository = {
@@ -11,7 +12,7 @@ const borrowedBookRepository = {
         });
     },
 
-    async findActiveBorrowedBook(userId, bookId) {
+    async findActiveBorrowedBookOfUser(userId, bookId) {
         return await BorrowedBook.findOne({
             where: {
                 UserId: userId,
@@ -21,7 +22,22 @@ const borrowedBookRepository = {
         });
     },
 
-    async findAllBorrowedBooks(userId) {
+    async findBookIsCurrentlyBorrowed(bookId) {
+        return await BorrowedBook.findOne({
+            where: {
+                BookId: bookId,
+                returnDate: { [Op.is]: null },
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'name'],
+                }
+            ],
+        });
+    },
+
+    async findAllBorrowedBooksOfUser(userId) {
         return await BorrowedBook.findAll({
             where: {
                 UserId: userId,

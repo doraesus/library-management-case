@@ -35,7 +35,39 @@ const bookService = {
             name: book.name,
             score: averageScore,
         };
-    }
+    },
+
+    async getBookWithBorrower(bookId) {
+        const book = await bookRepository.findById(bookId);
+        if (!book) {
+            throw new Error(`Book with ID ${bookId} not found`);
+        }
+
+        if (!book.isBorrowed) {
+            return {
+                id: book.id,
+                name: book.name,
+                score: book.averageScore,
+                isBorrowed: false,
+            };
+        }
+
+        const borrowedBook = await borrowedBookService.getActiveBorrowRecordOfBook(bookId);
+        if (!borrowedBook) {
+            throw new Error(`Book is not borrowed`);
+        }
+
+        return {
+            id: book.id,
+            name: book.name,
+            score: book.averageScore,
+            isBorrowed: true,
+            borrowerInfo: {
+                userId: borrowedBook.User.id,
+                userName: borrowedBook.User.name,
+            },
+        };
+    },
 }
 
 module.exports = bookService;

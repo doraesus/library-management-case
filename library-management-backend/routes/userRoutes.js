@@ -20,6 +20,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+router.get('/eligible-borrowers', async (req, res) => {
+    try {
+        const eligibleUsers = await userService.getEligibleBorrowers();
+        res.status(200).json(eligibleUsers);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 router.get('/:userId', async (req, res) => {
     try {
         const userWithBooks = await userService.getUserWithBooks(req.params.userId);
@@ -51,6 +63,15 @@ router.post('/:userId/return/:bookId', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(400).json({ error: err.message });
+    }
+});
+
+router.get('/:userId/books', async (req, res) => {
+    try {
+        const userBooks = await userService.getUserBooks(req.params.userId);
+        res.status(200).json(userBooks);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

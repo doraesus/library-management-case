@@ -7,11 +7,15 @@ const borrowedBookService = {
     },
     
     async getAllPastBorrowedBooksOfUser(userId) {
-        return await borrowedBookRepository.findAllBorrowedBooks(userId);
+        return await borrowedBookRepository.findAllBorrowedBooksOfUser(userId);
     },
     
-    async getActiveBorrowedBook(userId, bookId) {
-        return await borrowedBookRepository.findActiveBorrowedBook(userId, bookId);
+    async getActiveBorrowedBookOfUser(userId, bookId) {
+        return await borrowedBookRepository.findActiveBorrowedBookOfUser(userId, bookId);
+    },
+
+    async getActiveBorrowRecordOfBook(bookId) {
+        return await borrowedBookRepository.findBookIsCurrentlyBorrowed(bookId);
     },
 
     async getAllScoresForBook(bookId) {

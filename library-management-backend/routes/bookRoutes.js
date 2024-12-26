@@ -20,4 +20,15 @@ router.get('/:bookId', async (req, res) => {
     }
 });
 
+router.get('/:bookId/with-borrower', async (req, res) => {
+    const { bookId } = req.params;
+    try {
+        const bookWithBorrower = await bookService.getBookWithBorrower(bookId);
+        res.status(200).json(bookWithBorrower);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;

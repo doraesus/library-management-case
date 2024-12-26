@@ -26,6 +26,13 @@ const userRepository = {
         await user.save();
         return user;
     },
+
+    async findEligibleBorrowers() {
+        return await User.findAll({
+            where: { activeBorrowedBookId: null },
+            attributes: ['id', 'name'],
+        });
+    },
 };
 
 module.exports = userRepository;
