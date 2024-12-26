@@ -15,7 +15,7 @@ This project is a Library Management System designed to simulate the operations 
 ## Installation
 Clone the repository:
 ```bash
-git clone https://github.com/yourusername/library-management-case.git
+git clone https://github.com/doraesus/library-management-case.git
 ```
 
 ### Backend
