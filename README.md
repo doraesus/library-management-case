@@ -113,3 +113,10 @@ Frontend application runs on localhost:9000 and listens port 3000 for backend ap
 * View list of users and their borrowed books.
 * View list of books and their details.
 * Borrow and return books.
+
+#### Demo
+
+https://github.com/user-attachments/assets/11fcd9d9-42aa-4830-b06f-a6d7ef2a7510
+
+
+
